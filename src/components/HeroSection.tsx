@@ -12,7 +12,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
         >
-          Hi, I'm <span className="text-blue-400">Zuhair</span>
+          Hi, I&apos;m <span className="text-blue-400">Zuhair</span>
         </motion.h1>
         <motion.p
           className="mt-6 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto"

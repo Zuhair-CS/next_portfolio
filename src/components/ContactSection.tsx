@@ -19,13 +19,18 @@ const AnimatedContainer: FC<{ delay?: number; children: React.ReactNode }> = ({
 
 const ContactSection: FC = () => {
   return (
-    <section id="contact" className="py-20 bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900">
+    <section
+      id="contact"
+      className="py-20 bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900"
+    >
       <div className="max-w-4xl mx-auto px-6 text-center">
         <AnimatedContainer>
-          <h2 className="text-5xl font-bold text-white mb-8">Let's Build Something Amazing</h2>
+          <h2 className="text-5xl font-bold text-white mb-8">
+            Let&apos;s Build Something Amazing
+          </h2>
           <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
-            I'm always excited to work on new projects and collaborate with talented people. Let's
-            create something extraordinary together!
+            I&apos;m always excited to work on new projects and collaborate with
+            talented people. Let&apos;s create something extraordinary together!
           </p>
 
           <div className="flex flex-wrap justify-center gap-6">
