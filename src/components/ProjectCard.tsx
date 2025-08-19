@@ -15,7 +15,7 @@ interface ProjectCardProps {
 export default function ProjectCard({ project, reverse }: ProjectCardProps) {
   return (
     <div
-      className={`group relative flex flex-col bg-gradient-to-br from-gray-800 via-gray-900 to-black text-white rounded-2xl shadow-2xl overflow-hidden border border-gray-700/50 transition-all duration-500 hover:shadow-3xl hover:border-blue-500/50 h-80 mx-2`}
+        className={`group relative flex flex-col bg-gradient-to-br from-gray-800 via-gray-900 to-black text-white rounded-2xl shadow-2xl overflow-hidden border border-gray-700/50 transition-all duration-500 hover:shadow-3xl hover:border-blue-500/50 h-[calc(25rem+5vh)] md:h-80 mx-2`}
     >
       {/* Gradient overlay for depth */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />

@@ -118,7 +118,7 @@ export default function CarouselNavigation({ projects }: CarouselNavigationProps
       <button
         onClick={goToPrevious}
         disabled={isAnimating}
-        className="absolute left-6 top-1/2 transform -translate-y-1/2 z-20 group disabled:opacity-50"
+        className="absolute left-0 top-1/2 transform -translate-y-1/2 z-20 group disabled:opacity-50 md:left-4 lg:left-6"
         aria-label="Previous project"
       >
         <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 rounded-full shadow-xl transition-all duration-300 group-hover:scale-110 group-disabled:hover:scale-100">
@@ -131,7 +131,7 @@ export default function CarouselNavigation({ projects }: CarouselNavigationProps
       <button
         onClick={goToNext}
         disabled={isAnimating}
-        className="absolute right-6 top-1/2 transform -translate-y-1/2 z-20 group disabled:opacity-50"
+        className="absolute right-0 top-1/2 transform -translate-y-1/2 z-20 group disabled:opacity-50 md:right-4 lg:right-6"
         aria-label="Next project"
       >
         <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 rounded-full shadow-xl transition-all duration-300 group-hover:scale-110 group-disabled:hover:scale-100">
@@ -140,6 +140,7 @@ export default function CarouselNavigation({ projects }: CarouselNavigationProps
           </svg>
         </div>
       </button>
+
 
       {/* Carousel Container */}
       <div className="relative flex items-center justify-center h-96 mx-auto max-w-7xl px-20">
@@ -151,7 +152,7 @@ export default function CarouselNavigation({ projects }: CarouselNavigationProps
           return (
             <motion.div
               key={index}
-              className={`absolute w-176 h-full flex items-center justify-center transition-all duration-75 ${
+              className={`absolute w-80 md:w-176 md:h-full flex items-center justify-center transition-all duration-75 ${
                 isClickable ? 'cursor-pointer' : ''
               }`}
               initial={false}
