@@ -17,20 +17,19 @@ export function FloatingDockDemo() {
       ),
       href: "#",
     },
-
-    {
-      title: "Projects",
-      icon: (
-        <IconFileCode className="h-full w-full text-neutral-500 dark:text-neutral-300" />
-      ),
-      href: "#projects",
-    },
     {
       title: "Experience",
       icon: (
         <IconFileStar className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
       href: "#experience",
+    },
+        {
+      title: "Projects",
+      icon: (
+        <IconFileCode className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+      ),
+      href: "#projects",
     },
     {
       title: "Skills",
@@ -49,8 +48,7 @@ export function FloatingDockDemo() {
   ];
   return (
 
-      <FloatingDock
-        mobileClassName="translate-y-20" // only for demo, remove for production
+      <FloatingDock// only for demo, remove for production
         items={links}
       />
   );

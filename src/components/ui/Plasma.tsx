@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useEffect, useRef } from "react";
 import { Renderer, Program, Mesh, Triangle } from "ogl";
 import "@/styles/plasma.css";
@@ -29,11 +30,11 @@ precision highp float;
 in vec2 position;
 in vec2 uv;
 out vec2 vUv;
+
 void main() {
   vUv = uv;
   gl_Position = vec4(position, 0.0, 1.0);
-}
-`;
+}`;
 
 const fragment = `#version 300 es
 precision highp float;
@@ -52,25 +53,25 @@ out vec4 fragColor;
 void mainImage(out vec4 o, vec2 C) {
   vec2 center = iResolution.xy * 0.5;
   C = (C - center) / uScale + center;
-  
+
   vec2 mouseOffset = (uMouse - center) * 0.0002;
   C += mouseOffset * length(C - center) * step(0.5, uMouseInteractive);
-  
+
   float i, d, z, T = iTime * uSpeed * uDirection;
   vec3 O, p, S;
 
   for (vec2 r = iResolution.xy, Q; ++i < 60.; O += o.w/d*o.xyz) {
-    p = z*normalize(vec3(C-.5*r,r.y)); 
-    p.z -= 4.; 
+    p = z*normalize(vec3(C-.5*r,r.y));
+    p.z -= 4.;
     S = p;
     d = p.y-T;
-    
-    p.x += .4*(1.+p.y)*sin(d + p.x*0.1)*cos(.34*d + p.x*0.05); 
-    Q = p.xz *= mat2(cos(p.y+vec4(0,11,33,0)-T)); 
-    z+= d = abs(sqrt(length(Q*Q)) - .25*(5.+S.y))/3.+8e-4; 
+
+    p.x += .4*(1.+p.y)*sin(d + p.x*0.1)*cos(.34*d + p.x*0.05);
+    Q = p.xz *= mat2(cos(p.y+vec4(0,11,33,0)-T));
+    z+= d = abs(sqrt(length(Q*Q)) - .25*(5.+S.y))/3.+8e-4;
     o = 1.+sin(S.y+p.z*.5+S.z-length(S-p)+vec4(2,1,0,8));
   }
-  
+
   o.xyz = tanh(O/1e4);
 }
 
@@ -87,11 +88,11 @@ void main() {
   vec4 o = vec4(0.0);
   mainImage(o, gl_FragCoord.xy);
   vec3 rgb = sanitize(o.rgb);
-  
+
   float intensity = (rgb.r + rgb.g + rgb.b) / 3.0;
   vec3 customColor = intensity * uCustomColor;
   vec3 finalColor = mix(rgb, customColor, step(0.5, uUseCustomColor));
-  
+
   float alpha = length(rgb) * uOpacity;
   fragColor = vec4(finalColor, alpha);
 }`;
@@ -110,6 +111,8 @@ export const Plasma: React.FC<PlasmaProps> = ({
   useEffect(() => {
     if (!containerRef.current) return;
 
+    const container = containerRef.current; // Store the reference in a local variable
+
     const useCustomColor = color ? 1.0 : 0.0;
     const customColorRgb = color ? hexToRgb(color) : [1, 1, 1];
 
@@ -121,12 +124,13 @@ export const Plasma: React.FC<PlasmaProps> = ({
       antialias: false,
       dpr: Math.min(window.devicePixelRatio || 1, 2),
     });
+
     const gl = renderer.gl;
     const canvas = gl.canvas as HTMLCanvasElement;
     canvas.style.display = "block";
     canvas.style.width = "100%";
     canvas.style.height = "100%";
-    containerRef.current.appendChild(canvas);
+    container.appendChild(canvas); // Use the local reference here
 
     const geometry = new Triangle(gl);
 
@@ -151,7 +155,7 @@ export const Plasma: React.FC<PlasmaProps> = ({
 
     const handleMouseMove = (e: MouseEvent) => {
       if (!mouseInteractive) return;
-      const rect = containerRef.current!.getBoundingClientRect();
+      const rect = container.getBoundingClientRect(); // Use the local reference here
       mousePos.current.x = e.clientX - rect.left;
       mousePos.current.y = e.clientY - rect.top;
       const mouseUniform = program.uniforms.uMouse.value as Float32Array;
@@ -160,11 +164,11 @@ export const Plasma: React.FC<PlasmaProps> = ({
     };
 
     if (mouseInteractive) {
-      containerRef.current.addEventListener("mousemove", handleMouseMove);
+      container.addEventListener("mousemove", handleMouseMove);
     }
 
     const setSize = () => {
-      const rect = containerRef.current!.getBoundingClientRect();
+      const rect = container.getBoundingClientRect(); // Use the local reference here
       const width = Math.max(1, Math.floor(rect.width));
       const height = Math.max(1, Math.floor(rect.height));
       renderer.setSize(width, height);
@@ -174,7 +178,7 @@ export const Plasma: React.FC<PlasmaProps> = ({
     };
 
     const ro = new ResizeObserver(setSize);
-    ro.observe(containerRef.current);
+    ro.observe(container);
     setSize();
 
     let raf = 0;
@@ -196,11 +200,11 @@ export const Plasma: React.FC<PlasmaProps> = ({
     return () => {
       cancelAnimationFrame(raf);
       ro.disconnect();
-      if (mouseInteractive && containerRef.current) {
-        containerRef.current.removeEventListener("mousemove", handleMouseMove);
+      if (mouseInteractive) {
+        container.removeEventListener("mousemove", handleMouseMove); // Use the local reference here
       }
       try {
-        containerRef.current?.removeChild(canvas);
+        container?.removeChild(canvas); // Use the local reference here
       } catch {}
     };
   }, [color, speed, direction, scale, opacity, mouseInteractive]);
@@ -217,8 +221,6 @@ export const Plasma: React.FC<PlasmaProps> = ({
       </div>
     </div>
   );
-
-
 };
 
 export default Plasma;
