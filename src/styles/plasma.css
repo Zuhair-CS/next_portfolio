@@ -1,0 +1,19 @@
+.plasma-container {
+  position: fixed;       /* full background */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: -1;           /* 👈 force it behind all content */
+  overflow: hidden;
+}
+
+.plasma-content {
+  position: relative;
+  z-index: 1;            /* 👈 content above */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}

@@ -1,21 +1,31 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { FlipWords } from "./ui/flip-words";
 
 export default function HeroSection() {
   return (
-    <section className="min-h-screen flex items-center justify-center bg-gradient-to-r from-gray-900 via-gray-800 to-black">
+    <section className="min-h-screen flex items-center justify-center">
       <div className="text-center px-6">
         <motion.h1
-          className="text-5xl md:text-6xl font-bold text-white"
+          className="text-7xl md:text-7xl font-bold text-white"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
         >
-          Hi, I&apos;m <span className="text-blue-400">Zuhair</span>
+          Hi, I&apos;m Zuhair
         </motion.h1>
+        <motion.div
+          className="mt-6 text-lg md:text-4xl text-gray-300 max-w-xl mx-auto flex justify-center items-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.7 }}
+        >
+          <span className="mr-2">I am a</span>
+          <FlipWords words={["Web Developer", "Devops Enthusiast", "Tech Lover", "Software Devloper"]}/>
+        </motion.div>
         <motion.p
-          className="mt-6 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto"
+          className="mt-6 text-lg md:text-xl text-gray-300 max-w-xl mx-auto"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.7 }}
