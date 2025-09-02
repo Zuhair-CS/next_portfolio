@@ -48,7 +48,7 @@ export function FloatingDockDemo() {
   ];
   return (
 
-      <FloatingDock// only for demo, remove for production
+      <FloatingDock
         items={links}
       />
   );

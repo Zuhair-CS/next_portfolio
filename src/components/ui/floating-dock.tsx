@@ -45,46 +45,53 @@ const FloatingDockMobile = ({
   const [open, setOpen] = useState(false);
   return (
     <div className={cn("fixed top-4 left-4 z-50 block md:hidden", className)}>
-  <AnimatePresence>
-    {open && (
-      <motion.div
-        layoutId="nav"
-        className="absolute left-0 top-full mt-2 flex flex-col gap-2"
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            layoutId="nav"
+            className="absolute left-0 top-full mt-2 flex flex-col gap-2"
+          >
+            {items.map((item, idx) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                // Closing: reverse order (last leaves first)
+                exit={{
+                  opacity: 0,
+                  y: 10,
+                  transition: { delay: (items.length - 1 - idx) * 0.05 },
+                }}
+                // Opening: normal order (first enters first)
+                transition={{ delay: idx * 0.05 }}
+              >
+                <a
+                  href={item.href}
+                  className="flex h-14 w-14 items-center justify-center rounded-2xl 
+                           bg-black/20 backdrop-blur-md border border-blue-400/20 
+                           shadow-lg hover:bg-black/30 hover:border-blue-400/40 
+                           transition-all duration-300 ease-out
+                           hover:shadow-xl hover:shadow-blue-500/20"
+                >
+                  <div className="h-6 w-6 text-blue-100">{item.icon}</div>
+                </a>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex h-14 w-14 items-center justify-center rounded-2xl 
+                   bg-black/20 backdrop-blur-md border border-blue-400/20 
+                   shadow-lg hover:bg-black/30 hover:border-blue-400/40 
+                   transition-all duration-300 ease-out
+                   hover:shadow-xl hover:shadow-blue-500/20"
       >
-      {items.map((item, idx) => (
-        <motion.div
-          key={item.title}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          // Closing: reverse order (last leaves first)
-          exit={{
-            opacity: 0,
-            y: 10,
-            transition: { delay: (items.length - 1 - idx) * 0.05 },
-          }}
-          // Opening: normal order (first enters first)
-          transition={{ delay: idx * 0.05 }}
-        >
-        <a
-          href={item.href}
-          className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-800 dark:bg-gray-800"
-        >
-          <div className="h-6 w-6">{item.icon}</div>
-        </a>
-        </motion.div>
-      ))}
-      </motion.div>
-    )}
-  </AnimatePresence>
-
-  <button
-    onClick={() => setOpen(!open)}
-    className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-800 dark:bg-gray-800"
-  >
-    <IconLayoutNavbarCollapse className="h-5 w-5 text-neutral-500 dark:text-neutral-400" />
-  </button>
-</div>
-
+        <IconLayoutNavbarCollapse className="h-5 w-5 text-blue-100" />
+      </button>
+    </div>
   );
 };
 
@@ -98,13 +105,15 @@ const FloatingDockDesktop = ({
   const mouseY = useMotionValue(Infinity);
   return (
     <motion.div
-      onMouseMove={(e) => mouseY.set(e.pageY)}
+      onMouseMove={(e) => mouseY.set(e.clientY)}
       onMouseLeave={() => mouseY.set(Infinity)}
       className={cn(
         "fixed left-4 top-1/2 -translate-y-1/2 z-50 " + // Left side, vertically centered
-        "hidden w-20 flex-col items-start gap-4 rounded-2xl " +     // w-20 for vertical layout
-        "bg-[#0F172A]/80 backdrop-blur-lg border border-gray-700/60 " +
-        "py-6 pl-4 pr-4 shadow-xl md:flex",
+        "hidden w-20 flex-col items-start gap-4 rounded-3xl " +     // w-20 for vertical layout
+        "bg-black/20 backdrop-blur-xl border border-blue-400/20 " +
+        "py-6 pl-4 pr-4 shadow-2xl shadow-black/40 md:flex " +
+        "before:absolute before:inset-0 before:rounded-3xl before:bg-gradient-to-br " +
+        "before:from-blue-400/20 before:to-transparent before:pointer-events-none",
         className
       )}
     >
@@ -172,7 +181,14 @@ function IconContainer({
         style={{ width, height }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        className="relative flex aspect-square items-center justify-center rounded-full bg-gray-800 dark:bg-gray-800"
+        className="relative flex aspect-square items-center justify-center rounded-2xl 
+                   bg-black/20 backdrop-blur-md border border-blue-400/20 
+                   shadow-lg hover:bg-black/30 hover:border-blue-400/40 
+                   transition-all duration-300 ease-out
+                   hover:shadow-xl hover:shadow-blue-500/20
+                   before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br 
+                   before:from-blue-400/30 before:to-transparent before:pointer-events-none before:opacity-0
+                   hover:before:opacity-100 before:transition-opacity before:duration-300"
       >
         <AnimatePresence>
           {hovered && (
@@ -180,7 +196,11 @@ function IconContainer({
               initial={{ opacity: 0, x: -10, y: "-50%" }}
               animate={{ opacity: 1, x: 0, y: "-50%" }}
               exit={{ opacity: 0, x: -5, y: "-50%" }}
-              className="absolute left-full top-1/2 ml-2 w-fit rounded-md border border-gray-700 bg-gray-800 dark:bg-gray-800 px-2 py-1 text-s whitespace-nowrap text-neutral-700 dark:text-white"
+              className="absolute left-full top-1/2 ml-3 w-fit rounded-xl border border-blue-400/30 
+                         bg-black/30 backdrop-blur-lg px-3 py-2 text-sm whitespace-nowrap 
+                         text-blue-100 shadow-lg shadow-black/40
+                         before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-br 
+                         before:from-blue-400/20 before:to-transparent before:pointer-events-none"
             >
               {title}
             </motion.div>
@@ -188,7 +208,7 @@ function IconContainer({
         </AnimatePresence>
         <motion.div
           style={{ width: widthIcon, height: heightIcon }}
-          className="flex items-center justify-center"
+          className="flex items-center justify-center text-blue-100 z-10 relative"
         >
           {icon}
         </motion.div>

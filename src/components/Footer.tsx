@@ -15,7 +15,7 @@ const AnimatedContainer: FC<{ children: React.ReactNode }> = ({ children }) => (
 
 const Footer: FC = () => {
   return (
-    <footer className="bg-black text-white py-12 border-t border-gray-800">
+    <footer className=" text-white py-12">
       <div className="max-w-6xl mx-auto px-6 text-center">
         <AnimatedContainer>
           <p className="text-gray-400 mb-4">

@@ -216,8 +216,6 @@ export const Plasma: React.FC<PlasmaProps> = ({
 
       {/* Foreground content */}
       <div className="plasma-content">
-        <FloatingDockDemo />
-        <HeroSection />
       </div>
     </div>
   );

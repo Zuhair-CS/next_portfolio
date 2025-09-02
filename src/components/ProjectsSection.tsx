@@ -2,6 +2,7 @@
 
 import AnimatedContainer from "./AnimatedContainer";
 import CarouselNavigation from "./CarouselNavigation";
+import {ExpandableCardDemo} from "./ui/grid-card";
 
 export default function ProjectsSection() {
   const projects = [
@@ -20,6 +21,7 @@ export default function ProjectsSection() {
       ],
       live: "https://sherify.vercel.app/",
       code: "https://github.com/Zuhair-CS/Sherify",
+      src: "/images/123.png",
     },
     {
       name: "WANDERLUST",
@@ -36,30 +38,33 @@ export default function ProjectsSection() {
       ],
       live: "https://wanderlust-j3s6.onrender.com/",
       code: "https://github.com/Zuhair-CS/Wanderlust",
+      src: "/images/123.png",
     },
     {
-      name: "AI CAMPAIGN ANALYZER",
+      name: "AI WEB SCRAPER",
       type: "Apify + Next.js integration",
       description:
         "Runs a custom Apify actor to scrape a page and summarize H1—H6 headings. Advanced web scraping and analysis tool with modern UI.",
       tech: ["Apify", "Next.js", "Next.js API routes"],
       live: "https://apify-implementation.vercel.app/",
       code: "https://github.com/Zuhair-CS/Apify_Implementation",
+      src: "/images/123.png",
     },
   ];
 
   return (
-    <section id="projects" className="py-20 bg-gray-900">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="projects" className="py-10">
+      <div className="max-w-5xl mx-auto px-6">
         <AnimatedContainer>
-          <h2 className="text-5xl font-bold text-center mb-20 text-white">
-            Projects
-            <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-4 rounded-full"></div>
-          </h2>
-        </AnimatedContainer>
+          <div className="flex items-center mb-20">
+            <div className="flex-1 h-[2px] bg-gradient-to-r from-blue-500 to-purple-500"></div>
+            <h2 className="text-5xl font-bold text-white ml-4">Projects</h2>
 
-        {/* Carousel with 3 visible cards, looping + autoplay */}
-        <CarouselNavigation projects={projects} />
+          </div>
+        </AnimatedContainer>
+        <ExpandableCardDemo projects={projects} />
+        {/* Carousel with 3 visible cards, looping + autoplay
+        <CarouselNavigation projects={projects} /> */}
       </div>
     </section>
   );
