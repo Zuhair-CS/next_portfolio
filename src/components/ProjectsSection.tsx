@@ -20,7 +20,7 @@ export default function ProjectsSection() {
       ],
       live: "https://sherify.vercel.app/",
       code: "https://github.com/Zuhair-CS/Sherify",
-      src: "/images/123.png",
+      src: "/images/sherify.png",
     },
     {
       name: "WANDERLUST",
@@ -37,7 +37,7 @@ export default function ProjectsSection() {
       ],
       live: "https://wanderlust-j3s6.onrender.com/",
       code: "https://github.com/Zuhair-CS/Wanderlust",
-      src: "/images/123.png",
+      src: "/images/wanderlust.png",
     },
     {
       name: "AI WEB SCRAPER",
@@ -47,7 +47,7 @@ export default function ProjectsSection() {
       tech: ["Apify", "Next.js", "Next.js API routes"],
       live: "https://apify-implementation.vercel.app/",
       code: "https://github.com/Zuhair-CS/Apify_Implementation",
-      src: "/images/123.png",
+      src: "/images/apify.png",
     },
   ];
 
