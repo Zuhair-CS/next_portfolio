@@ -8,7 +8,7 @@ import Footer from "@/components/Footer";
 import Plasma from '@/components/ui/Plasma';
 import HeroSection from "@/components/HeroSection";
 import { FloatingDockDemo } from "@/components/Navbar";
-
+import AboutSection from "@/components/AboutSection";
 export default function HomePage() {
   return (
     <main>
@@ -24,6 +24,7 @@ export default function HomePage() {
       </div>
       <FloatingDockDemo />
       <HeroSection />
+      <AboutSection />
       <ProjectsSection />
       <SkillsSection />
       <ExperienceSection />

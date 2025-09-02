@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Renderer, Program, Mesh, Triangle } from "ogl";
 import "@/styles/plasma.css";
 
@@ -11,6 +11,7 @@ interface PlasmaProps {
   scale?: number;
   opacity?: number;
   mouseInteractive?: boolean;
+  mobileBreakpoint?: number; // new prop
 }
 
 const hexToRgb = (hex: string): [number, number, number] => {
@@ -102,18 +103,28 @@ export const Plasma: React.FC<PlasmaProps> = ({
   scale = 1,
   opacity = 1,
   mouseInteractive = true,
+  mobileBreakpoint = 768, // default: below 768px = no plasma
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mousePos = useRef({ x: 0, y: 0 });
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < mobileBreakpoint);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, [mobileBreakpoint]);
 
-    const container = containerRef.current; // Store the reference in a local variable
+  useEffect(() => {
+    if (!containerRef.current || isMobile) return;
+
+    const container = containerRef.current;
 
     const useCustomColor = color ? 1.0 : 0.0;
     const customColorRgb = color ? hexToRgb(color) : [1, 1, 1];
-
     const directionMultiplier = direction === "reverse" ? -1.0 : 1.0;
 
     const renderer = new Renderer({
@@ -128,13 +139,13 @@ export const Plasma: React.FC<PlasmaProps> = ({
     canvas.style.display = "block";
     canvas.style.width = "100%";
     canvas.style.height = "100%";
-    container.appendChild(canvas); // Use the local reference here
+    container.appendChild(canvas);
 
     const geometry = new Triangle(gl);
 
     const program = new Program(gl, {
-      vertex: vertex,
-      fragment: fragment,
+      vertex,
+      fragment,
       uniforms: {
         iTime: { value: 0 },
         iResolution: { value: new Float32Array([1, 1]) },
@@ -153,7 +164,7 @@ export const Plasma: React.FC<PlasmaProps> = ({
 
     const handleMouseMove = (e: MouseEvent) => {
       if (!mouseInteractive) return;
-      const rect = container.getBoundingClientRect(); // Use the local reference here
+      const rect = container.getBoundingClientRect();
       mousePos.current.x = e.clientX - rect.left;
       mousePos.current.y = e.clientY - rect.top;
       const mouseUniform = program.uniforms.uMouse.value as Float32Array;
@@ -166,7 +177,7 @@ export const Plasma: React.FC<PlasmaProps> = ({
     }
 
     const setSize = () => {
-      const rect = container.getBoundingClientRect(); // Use the local reference here
+      const rect = container.getBoundingClientRect();
       const width = Math.max(1, Math.floor(rect.width));
       const height = Math.max(1, Math.floor(rect.height));
       renderer.setSize(width, height);
@@ -183,12 +194,10 @@ export const Plasma: React.FC<PlasmaProps> = ({
     const t0 = performance.now();
     const loop = (t: number) => {
       const timeValue = (t - t0) * 0.001;
-
       if (direction === "pingpong") {
         const cycle = Math.sin(timeValue * 0.5) * directionMultiplier;
         (program.uniforms.uDirection).value = cycle;
       }
-
       (program.uniforms.iTime).value = timeValue;
       renderer.render({ scene: mesh });
       raf = requestAnimationFrame(loop);
@@ -199,22 +208,25 @@ export const Plasma: React.FC<PlasmaProps> = ({
       cancelAnimationFrame(raf);
       ro.disconnect();
       if (mouseInteractive) {
-        container.removeEventListener("mousemove", handleMouseMove); // Use the local reference here
+        container.removeEventListener("mousemove", handleMouseMove);
       }
       try {
-        container?.removeChild(canvas); // Use the local reference here
+        container.removeChild(canvas);
       } catch {}
     };
-  }, [color, speed, direction, scale, opacity, mouseInteractive]);
+  }, [color, speed, direction, scale, opacity, mouseInteractive, isMobile]);
 
   return (
-    <div>
-      {/* Plasma background */}
-      <div ref={containerRef} className="plasma-container" />
+    <div className="relative w-full h-full">
+      {/* Plasma or fallback */}
+      {!isMobile ? (
+        <div ref={containerRef} className="plasma-container" />
+      ) : (
+        <div className="plasma-mobile-bg" /> // 👈 mobile-friendly bg
+      )}
 
       {/* Foreground content */}
-      <div className="plasma-content">
-      </div>
+      <div className="plasma-content" />
     </div>
   );
 };

@@ -30,8 +30,8 @@ export default function ExperienceSection() {
   return (
     <section id="experience" className="py-20 max-w-5xl mx-auto px-6">
       <div className="flex items-center mb-20">
-        <h2 className="text-5xl font-bold text-white mr-4">Experience</h2>
         <div className="flex-1 h-[2px] bg-gradient-to-r from-blue-500 to-purple-500"></div>
+        <h2 className="text-5xl font-bold text-white ml-4">Experience.</h2>
       </div>
 
       <div className="space-y-12 pb-18">
