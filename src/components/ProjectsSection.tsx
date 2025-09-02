@@ -1,7 +1,6 @@
 "use client";
 
 import AnimatedContainer from "./AnimatedContainer";
-import CarouselNavigation from "./CarouselNavigation";
 import {ExpandableCardDemo} from "./ui/grid-card";
 
 export default function ProjectsSection() {
@@ -63,8 +62,6 @@ export default function ProjectsSection() {
           </div>
         </AnimatedContainer>
         <ExpandableCardDemo projects={projects} />
-        {/* Carousel with 3 visible cards, looping + autoplay
-        <CarouselNavigation projects={projects} /> */}
       </div>
     </section>
   );
