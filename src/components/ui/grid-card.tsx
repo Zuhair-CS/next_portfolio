@@ -5,7 +5,6 @@ import { AnimatePresence, motion } from "motion/react";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import { GlowCard } from "./spotlight-cards";
 import Image from "next/image";
-import { GlowButton } from "./glow-button";
 
 // Updated interface to match your project structure
 interface Project {

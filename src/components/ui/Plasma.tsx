@@ -3,8 +3,6 @@
 import React, { useEffect, useRef } from "react";
 import { Renderer, Program, Mesh, Triangle } from "ogl";
 import "@/styles/plasma.css";
-import HeroSection from "@/components/HeroSection";
-import { FloatingDockDemo } from "@/components/Navbar";
 
 interface PlasmaProps {
   color?: string;
