@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, ReactNode } from "react";
+import React, { useEffect, useRef, ReactNode, useState } from "react";
 
 interface GlowButtonProps {
   children: ReactNode;
@@ -17,8 +17,23 @@ const GlowButton: React.FC<GlowButtonProps> = ({
 }) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // Check if device is mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    // Skip animation on mobile
+    if (isMobile) return;
+
     let progress = 0;
     let animationFrame: number;
 
@@ -58,7 +73,7 @@ const GlowButton: React.FC<GlowButtonProps> = ({
 
     animationFrame = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animationFrame);
-  }, []);
+  }, [isMobile]);
 
   const { base, spread } = { base: 240, spread: 120 };
 
@@ -92,38 +107,53 @@ const GlowButton: React.FC<GlowButtonProps> = ({
   };
 
   const beforeAfterStyles = `
-  [data-glow]::before,
-  [data-glow]::after {
-    pointer-events: none;
-    content: "";
-    position: absolute;
-    inset: calc(var(--border-size) * -1);
-    border: var(--border-size) solid transparent;
-    border-radius: calc(var(--radius) * 1px);
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
+  /* Desktop styles - keep original effects */
+  @media (min-width: 769px) {
+    [data-glow]::before,
+    [data-glow]::after {
+      pointer-events: none;
+      content: "";
+      position: absolute;
+      inset: calc(var(--border-size) * -1);
+      border: var(--border-size) solid transparent;
+      border-radius: calc(var(--radius) * 1px);
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-position: 50% 50%;
+    }
+    
+    [data-glow]::before {
+      background-image: radial-gradient(
+        calc(var(--spotlight-size) * 0.5) calc(var(--spotlight-size) * 0.5) at
+        calc(var(--x, 0) * 1px)
+        calc(var(--y, 0) * 1px),
+        hsl(var(--hue, 210) 100% 50% / 1),
+        transparent 100%
+      );
+      filter: brightness(1.5);
+    }
+    
+    [data-glow]::after {
+      background-image: radial-gradient(
+        calc(var(--spotlight-size) * 0.35) calc(var(--spotlight-size) * 0.35) at
+        calc(var(--x, 0) * 1px)
+        calc(var(--y, 0) * 1px),
+        hsl(220 100% 100% / 1),
+        transparent 100%
+      );
+    }
   }
-  
-  [data-glow]::before {
-    background-image: radial-gradient(
-      calc(var(--spotlight-size) * 0.5) calc(var(--spotlight-size) * 0.5) at
-      calc(var(--x, 0) * 1px)
-      calc(var(--y, 0) * 1px),
-      hsl(var(--hue, 210) 100% 50% / 1),
-      transparent 100%
-    );
-    filter: brightness(1.5);
-  }
-  
-  [data-glow]::after {
-    background-image: radial-gradient(
-      calc(var(--spotlight-size) * 0.35) calc(var(--spotlight-size) * 0.35) at
-      calc(var(--x, 0) * 1px)
-      calc(var(--y, 0) * 1px),
-      hsl(220 100% 100% / 1),
-      transparent 100%
-    );
+
+  /* Mobile styles - remove all effects */
+  @media (max-width: 768px) {
+    [data-glow]::before,
+    [data-glow]::after {
+      display: none;
+    }
+    
+    [data-glow] [data-glow] {
+      display: none;
+    }
   }
 `;
 
