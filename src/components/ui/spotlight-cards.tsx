@@ -68,7 +68,6 @@ const GlowCard: React.FC<GlowCardProps> = ({
       backgroundColor: "var(--backdrop, transparent)",
       border: "var(--border-size) solid var(--backup-border)",
       position: "relative",
-      touchAction: "none",
     } as React.CSSProperties;
 
     // Only add background effects on desktop
@@ -88,6 +87,7 @@ const GlowCard: React.FC<GlowCardProps> = ({
       baseStyles.backgroundSize = "calc(100% + (2 * var(--border-size))) calc(100% + (2 * var(--border-size)))";
       baseStyles.backgroundPosition = "50% 50%";
       baseStyles.backgroundAttachment = "fixed";
+      baseStyles.touchAction= "none";
     }
 
     // Add width and height if provided
