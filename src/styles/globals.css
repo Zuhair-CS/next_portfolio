@@ -1,8 +1,27 @@
 @import "tailwindcss";
 
+/* Define Amiamie Regular */
+@font-face {
+  font-family: "Amiamie";
+  src: url("/fonts/amiamie/otf/Amiamie-Regular.otf") format("opentype"),
+       url("/fonts/amiamie/ttf/Amiamie-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Define Amiamie Bold (if you have it) */
+@font-face {
+  font-family: "Amiamie";
+  src: url("/fonts/amiamie/otf/Amiamie-Black.otf") format("opentype"),
+       url("/fonts/amiamie/ttf/Amiamie-Black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  /* Set static background and foreground colors */
-  --background: #0a0a0a; 
+  --background: #0a0a0a;
   --foreground: #ededed;
 }
 
@@ -13,5 +32,5 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Amiamie", sans-serif;
 }

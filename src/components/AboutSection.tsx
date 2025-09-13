@@ -10,7 +10,7 @@ const AboutMe: FC = () => {
     >
       {/* Header */}
       <div className="flex items-center mb-16">
-        <h2 className="text-5xl font-bold text-white mr-4">About Me</h2>
+        <h2 className="text-5xl font-bold text-white mr-4">About Me.</h2>
         <div className="flex-1 h-[2px] bg-gradient-to-r from-blue-500 to-purple-500"></div>
       </div>
 

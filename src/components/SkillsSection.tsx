@@ -61,7 +61,7 @@ const SkillsSection: FC = () => {
       <div className="max-w-5xl mx-auto px-6">
         <AnimatedContainer>
         <div className="flex items-center mb-20">
-          <h2 className="text-5xl font-bold text-white mr-4">Skills &amp; Achievements</h2>
+          <h2 className="text-5xl font-bold text-white mr-4">Skills &amp; Achievements.</h2>
           <div className="flex-1 h-[2px] bg-gradient-to-r from-blue-500 to-purple-500"></div>
         </div>
         </AnimatedContainer>
